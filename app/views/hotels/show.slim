@@ -1,0 +1,79 @@
+.row: .col-lg-12
+  .panel.panel-primary
+    .panel-heading
+      h3.panel-title #{@hotel.title}
+
+    .panel-body
+      .row
+        .col-lg-8
+          ul.list-group
+
+            li.list-group-item
+              dl.dl-horizontal
+                dt Star rating
+                dd = @hotel.star_rating
+
+            li.list-group-item 
+              dl.dl-horizontal
+                dt Star rating owner
+                dd = @hotel.star_rating_owner
+
+            li.list-group-item 
+              dl.dl-horizontal
+                dt Price of room
+                dd = @hotel.price_of_room
+
+            li.list-group-item 
+              dl.dl-horizontal
+                dt Room description
+                dd = @hotel.room_description
+
+            li.list-group-item 
+              dl.dl-horizontal
+                dt Breakfest include?
+                dd = @hotel.is_breakfest?
+
+        - if @hotel.photo_url.present?
+          .col-lg-4
+            = image_tag (@hotel.photo_url), width: '100%'
+
+    .panel-footer
+      - if user_signed_in? && !@hotel.owner_hotel?(current_user.id) && !current_user.is_commented?(@hotel.id)
+        = form_for @comment, url: comments_path, html: { class: 'form-horizontal' }, method: :POST do |f|
+          = hidden_field_tag :hotel_id, @hotel.id
+
+          .form-group
+            label.control-label.col-sm-2 Star reting
+            .col-sm-10
+              .btn-group data-toggle='buttons'
+                label.btn.btn-primary.active
+                  = radio_button_tag 'star_rating_user', 1, checked: true
+                  | 1
+                label.btn.btn-primary
+                  = radio_button_tag 'star_rating_user', 2
+                  | 2
+                label.btn.btn-primary
+                  = radio_button_tag 'star_rating_user', 3
+                  | 3
+                label.btn.btn-primary
+                  = radio_button_tag 'star_rating_user', 4
+                  | 4
+                label.btn.btn-primary
+                  = radio_button_tag 'star_rating_user', 5
+                  | 5
+
+          .form-group
+            label.control-label.col-sm-2 Comment
+            .col-sm-10 = text_area_tag 'description', '', class: 'form-control'
+
+          .form-group
+            .col-sm-offset-2.col-sm-10 = f.submit 'Add comment', class: 'btn btn-success'
+
+      .comments
+        - @comments.each do |comment|
+          .panel.panel-primary
+            .panel-heading 
+              = comment.user.email
+              .pull-right = "#{comment.star_rating_user} star(s)"
+
+            .panel-body: p = comment.description

@@ -1,0 +1,17 @@
+.row
+  .col-md-6.col-md-offset-3
+    .panel.panel-primary
+      .panel-heading: h3.panel-title LOG IN
+      .panel-body =form_for(resource, as: resource_name, url: session_path(resource_name), class: 'form-horizontal') do |f|
+        .form-group.clearfix
+          lable.col-sm-2.control-label LOGIN
+          .col-sm-10 =f.email_field :email, autofocus: true, class: 'form-control'
+
+        .form-group.clearfix
+          lable.col-sm-2.control-label PASSWORD
+          .col-sm-10 =f.password_field :password, autocomplete: 'off', class: 'form-control'
+        .form-group.clearfix
+          .col-sm-10.col-sm-offset-2 = f.submit 'Log in', class: 'btn btn-primary'
+
+        .form-group.clearfix
+          = render 'devise/shared/links'

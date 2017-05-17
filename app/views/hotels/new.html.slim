@@ -1,0 +1,73 @@
+.row: .col-lg-12
+  h1 New hotel
+
+  = form_for @hotel, html: {class: 'form-horizontal'} do |f|
+    - if @hotel.errors.any?
+      #error_explanation
+        h2 = "#{pluralize(@hotel.errors.count, "error")} prohibited this bus from being saved:"
+        ul
+          - @hotel.errors.full_messages.each do |message|
+            li = message
+
+    .row
+      .col-lg-8
+        .form-group
+          label.control-label.col-sm-2 Title
+          .col-sm-10 = f.text_field :title, class: 'form-control', required: true
+
+        .form-group
+          label.control-label.col-sm-2 Star reting
+
+          .col-sm-10
+            .btn-group data-toggle='buttons'
+              label.btn.btn-primary.active
+                = f.radio_button :star_rating_owner, 1, checked: true
+                | 1
+              label.btn.btn-primary
+                = f.radio_button :star_rating_owner, 2
+                | 2
+              label.btn.btn-primary
+                = f.radio_button :star_rating_owner, 3
+                | 3
+              label.btn.btn-primary
+                = f.radio_button :star_rating_owner, 4
+                | 4
+              label.btn.btn-primary
+                = f.radio_button :star_rating_owner, 5
+                | 5
+
+        .form-group
+          label.control-label.col-sm-2 Brekfest include?
+          .col-sm-10 = f.check_box :is_breakfest
+
+        .form-group
+          label.control-label.col-sm-2 Room description
+          .col-sm-10 = f.text_area :room_description, class: 'form-control'
+
+        .form-group
+          label.control-label.col-sm-2 Price of room
+          .col-sm-10 = f.number_field :price_of_room, class: 'form-control'
+
+        .form-group
+          label.control-label.col-sm-2 Photo
+          .col-sm-10 = f.file_field :photo, class: 'form-control'
+
+        .form-group
+          label.control-label.col-sm-2 Country
+          .col-sm-10 = text_field_tag 'country', nil, class: 'form-control'
+
+        .form-group
+          label.control-label.col-sm-2 State
+          .col-sm-10 = text_field_tag 'state', nil, class: 'form-control'
+
+        .form-group
+          label.control-label.col-sm-2 City
+          .col-sm-10 = text_field_tag 'city', nil, class: 'form-control'
+
+        .form-group
+          label.control-label.col-sm-2 Street
+          .col-sm-10 = text_field_tag 'street', nil, class: 'form-control'
+
+        .form-group
+          .col-sm-2.col-sm-offset-8 = link_to 'Cancel', root_path, class: 'btn btn-default btn-block'
+          .col-sm-2 = f.submit value: 'Save', class: 'btn btn-primary btn-block'

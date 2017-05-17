@@ -1,0 +1,26 @@
+.row: .col-lg-12
+  = link_to 'Add hotel', new_hotel_path, class: 'btn btn-primary'
+
+  - if @hotels.any?
+    table.table
+      thead
+        td Photo
+        td Star rating
+        td Title
+        td Breakfast included?
+        td Price of room
+        td 
+      tbody
+        - @hotels.each do |h|
+          tr
+            td = image_tag (h.photo_url), width: '100px' if h.photo_url.present?
+            td = h.star_rating
+            td = h.title
+            td = h.is_breakfest?
+            td = h.price_of_room
+            td = link_to 'Show hotel', hotel_path(h), class: 'btn btn-xs btn-primary'
+
+  - else 
+    h2 
+      |Sorry at the moment there is no property. If you have some information about the hotel please 
+      = link_to 'add it', new_hotel_path
